@@ -1,0 +1,54 @@
+<div class="card">
+  <div class="card-header">
+    <h2>Send Notification</h2>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+      <div class="form-group mb-3">
+        <label for="category">Category</label>
+        <select id="category" class="form-control" formControlName="category">
+          <option value="">Select a category</option>
+          <option *ngFor="let category of categories" [value]="category">
+            {{ category }}
+          </option>
+        </select>
+        <div *ngIf="messageForm.get('category')?.invalid && messageForm.get('category')?.touched" class="text-danger">
+          Category is required
+        </div>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="content">Message</label>
+        <textarea
+          id="content"
+          class="form-control"
+          rows="4"
+          formControlName="content"
+          placeholder="Enter your message here"
+        ></textarea>
+        <div *ngIf="messageForm.get('content')?.invalid && messageForm.get('content')?.touched" class="text-danger">
+          Message content is required
+        </div>
+      </div>
+
+      <div class="d-grid">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="messageForm.invalid || submitting"
+        >
+          <span *ngIf="submitting" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          Send Notification
+        </button>
+      </div>
+    </form>
+
+    <div *ngIf="success" class="alert alert-success mt-3">
+      Message sent successfully! Notifications are being delivered to subscribers.
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger mt-3">
+      {{ error }}
+    </div>
+  </div>
+</div>
